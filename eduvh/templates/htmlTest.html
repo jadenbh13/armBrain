@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reuben's HTML test methods</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+	<div id="webHT">
+		<p>Web page</p>
+	</div>
+	<div id="mobHT">
+		<p>Mobile page</p>
+	</div>
+	<script type="text/javascript">
+		function detectMob() {
+			return ( ( window.innerWidth <= 800 ) && ( window.innerHeight <= 600 ) );
+		}
+		//Option 1 for checking mobile
+		var isMobile = {
+		    Android: function() {
+		        return navigator.userAgent.match(/Android/i);
+		    },
+		    BlackBerry: function() {
+		        return navigator.userAgent.match(/BlackBerry/i);
+		    },
+		    iOS: function() {
+		        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+		    },
+		    Opera: function() {
+		        return navigator.userAgent.match(/Opera Mini/i);
+		    },
+		    Windows: function() {
+		        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+		    },
+		    any: function() {
+		        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+		    }
+		};
+		//Option 2 for checking mobile
+		console.log(isMobile);
+		var isMobiles = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		//Option 3 for checking mobile
+		if (isMobiles) {
+		  console.log(isMobiles);
+		  alert("Mobile");
+		  document.getElementById("webHT").style.display = "none";
+		  document.getElementById("mobHT").style.display = "block";
+		  //window.location.replace("https://eduvh.herokuapp.com/");
+		  //Uncomment above line for redirect
+
+		  //$("#webHT").hide();
+		  //$("#mobHT").show();
+		  //Jquery version of hiding and showing webHT and mobHT
+		} else {
+		  console.log(isMobiles);
+		  console.log("Web");
+		  document.getElementById("webHT").style.display = "block";
+		  document.getElementById("mobHT").style.display = "none";
+		}
+		var mobs = detectMob();
+		alert(mobs);
+	</script>
+</body>
+</html>

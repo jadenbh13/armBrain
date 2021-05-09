@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style media="screen">
+	.Banner4 {
+		background-color:#F44336;
+		height: 50px;
+
+	}
+</style>
+<script>
+$("#focuser").hide();
+var url = 'https://eduvh.herokuapp.com/gets';
+window.onload = function () {
+
+var dps = []; // dataPoints
+var chart = new CanvasJS.Chart("chartContainer", {
+	title :{
+		text: "Brain Data"
+	},
+	data: [{
+		type: "line",
+		dataPoints: dps
+	}]
+});
+
+var xVal = 0;
+var yVal = 0;
+var updateInterval = 80;
+var dataLength = 30;
+var updateChart = function (count) {
+
+	count = count || 1;
+
+	for (var j = 0; j < count; j++) {
+    $.get(url, function(responseText) {
+        console.log(responseText);
+        yVal = parseFloat(responseText);
+				if(yVal > 0.8) {
+					$("#focuser").show();
+				} else {
+					$("#focuser").hide();
+				}
+    });
+		dps.push({
+			x: xVal,
+			y: yVal
+		});
+		xVal++;
+	}
+
+	if (dps.length > dataLength) {
+		dps.shift();
+	}
+
+	chart.render();
+};
+
+updateChart(dataLength);
+setInterval(function(){updateChart()}, updateInterval);
+
+}
+</script>
+</head>
+<body>
+<center>
+  <h1>       </h1>
+  <h1>EduVH</h1>
+  <h3>See the engagement of your students to enhance their learning experience</h3>
+  <h4>       </h4>
+  <h4>       </h4>
+  <div id="chartContainer" style="height: 400px; width:60%;"></div>
+	<h1>       </h1>
+	<h1>       </h1>
+	<div id="focuser">
+    <div class="Banner4" width="40%">
+      <center>
+        <font face="Courier New" size="5" color="white">WARNING: YOUR STUDENTS ARE LOSING FOCUS</font>
+      </center>
+    </div>
+  <div>
+</center>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
