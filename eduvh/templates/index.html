@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>EduVH</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyDh19fiYJehJ7tzM9MOiZCao1W_xMSQSIY",
+        authDomain: "jaden-drone.firebaseapp.com",
+        databaseURL: "https://jaden-drone.firebaseio.com",
+        projectId: "jaden-drone",
+        storageBucket: "jaden-drone.appspot.com",
+        messagingSenderId: "521899221302",
+        appId: "1:521899221302:web:dc25904d89b3e035e31397",
+        measurementId: "G-FF96M823P7"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
+    <center>
+      <h5>       </h5>
+      <h1>EduVH</h1>
+      <h3>See the engagement of your students to enhance their learning experience</h3>
+      <h5>       </h5>
+      <h5>       </h5>
+      <canvas id="line-chart" width="800" height="800"></canvas>
+    </center>
+    <input type="button" value="Add Data" onclick="addData()">
+    <script type="text/javascript">
+      var url = 'https://eduvh.herokuapp.com/gets';
+      var mb = 1;
+      var myLineChart = new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+          labels: [0],
+          datasets: [{
+              data: [0],
+              label: "0",
+              borderColor: "#c45850",
+              fill: false
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Brain data'
+          }
+        }
+      });
+
+      function addData(){
+        var els = 0;
+        $.get(url, function(responseText) {
+            console.log(responseText);
+            elsg = parseFloat(responseText);
+            myLineChart.data.datasets[0].data[mb] = elsg;
+            myLineChart.data.labels[mb] = mb.toString();
+            myLineChart.update();
+        });
+        mb += 1;
+      }
+
+      setInterval(function(){
+            addData();
+      }, 500);
+
+    </script>
+  </body>
+</html>
